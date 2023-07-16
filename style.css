@@ -1,0 +1,57 @@
+#mainContainer{
+  
+  background-color:#1e1e1e;
+  width:1000px;
+  height:800px;
+  cursor:default;
+}
+
+*{
+  cursor:default !important;
+  -webkit-user-select: none;
+ -khtml-user-select: none;
+   -moz-user-select: none;
+    -ms-user-select: none;
+     -o-user-select: none;
+        user-select: none;
+}
+
+#myBox{
+  width:40px;
+  height:40px;
+  background-color:#ff0000;
+  position:absolute;
+}
+
+.myItem{
+  /*width:40px;
+  height:40px;
+  /*background-color:#ff0000; */
+  position:absolute;
+}
+
+.catalog img {
+	height:50px;
+	padding-right:10px;
+}
+
+.myItem img{
+	width:100%;
+}
+
+.hline{
+  height:1px;
+  width:1000px;
+  float:left;
+  position:absolute;
+  
+  background-color:#0f0;
+}
+
+.vline{
+  width:1px;
+  height:800px;
+  float:left;
+  position:absolute;
+  background-color:#fff;
+}
