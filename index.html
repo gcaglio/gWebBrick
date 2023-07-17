@@ -14,16 +14,16 @@
   const pix_per_stud = 2;
   const catalog = [ 
   
-     { "id" : "2867.8", "img" : "Track/2867.8.gif", "rotate_cw_step" : "22.5"  },   
-     { "id" : "2865.8", "img" : "Track/2865.8.gif", "rotate_cw_step" : "22.5" },
-     { "id" : "2859.8", "img" : "Track/2859.8.gif", "rotate_cw_step" : "22.5"   },
-     { "id" : "2859halfcurve.8", "img" : "Track/2859halfcurve.8.gif", "rotate_cw_step" : "22.5"  },
-     { "id" : "2861.8", "img" : "Track/2861.8.gif", "rotate_cw_step" : "22.5"  },
-	 { "id" : "2861halfcurve.8", "img" : "Track/2861halfcurve.8.gif", "rotate_cw_step" : "22.5"  },
-	 { "id" : "607p01.7", "img" : "Road/607p01.7.gif", "rotate_cw_step" : "90"  },
-	 { "id" : "608p01.7", "img" : "Road/608p01.7.gif", "rotate_cw_step" : "90"  },
-	 { "id" : "606p02.7", "img" : "Road/606p02.7.gif", "rotate_cw_step" : "90"  },
-	 { "id" : "609p01.7", "img" : "Road/609p01.7.gif", "rotate_cw_step" : "90"  }
+     { "id" : "2867.8", "img" : "Parts/Track/2867.8.gif"  },   
+     { "id" : "2865.8", "img" : "Parts/Track/2865.8.gif" },
+     { "id" : "2859.8", "img" : "Parts/Track/2859.8.gif"   },
+     { "id" : "2859halfcurve.8", "img" : "Parts/Track/2859halfcurve.8.gif"  },
+     { "id" : "2861.8", "img" : "Parts/Track/2861.8.gif"  },
+	 { "id" : "2861halfcurve.8", "img" : "Parts/Track/2861halfcurve.8.gif" },
+	 { "id" : "607p01.7", "img" : "Parts/Road/607p01.7.gif" },
+	 { "id" : "608p01.7", "img" : "Parts/Road/608p01.7.gif"  },
+	 { "id" : "606p02.7", "img" : "Parts/Road/606p02.7.gif"  },
+	 { "id" : "609p01.7", "img" : "Parts/Road/609p01.7.gif"  }
 	 
 	 
   ];
@@ -38,14 +38,57 @@
 	  return
 	}
   
-    var rotate_cw_step = current_element.getElementsByTagName('img')[0].getAttribute("rotate_cw_step");
+//    var rotate_cw_step = current_element.getElementsByTagName('img')[0].getAttribute("rotate_cw_step");
+    var rotate_step = document.getElementById("rotate").value;
+	  alert(rotate_step);
     //current_element.getElementsByTagName('img')[0].style.transform = "rotate("+rotate_cw_step+"deg) translate(0px,5px)";
-	current_element.getElementsByTagName('img')[0].style.transform = "rotate("+rotate_cw_step+"deg)";
+    current_element.getElementsByTagName('img')[0].style.transform = "rotate("+rotate_step+"deg)";
+
+    current_element.getElementsByTagName('img')[0].setAttribute("rotate_step",rotate_step);
     //$("#" + current_element.id + " img").first().css('transform',"rotate(22.5deg) translate(-10px,57px) ");
     //current_element.style.transform = "rotate(22.5deg) translate(-10px,57px) ";
   
   }
-  
+
+
+  // rotate counterclockwise
+  function rotateCCW(){
+    if (current_element==null){
+          alert("Select an item on the grid first.");
+          return
+        }
+
+//    var rotate_cw_step = current_element.getElementsByTagName('img')[0].getAttribute("rotate_cw_step");
+    var rotate_step = document.getElementById("rotate").value;
+          alert(rotate_step);
+    //current_element.getElementsByTagName('img')[0].style.transform = "rotate("+rotate_cw_step+"deg) translate(0px,5px)";
+    current_element.getElementsByTagName('img')[0].style.transform = "rotate(-"+rotate_step+"deg)";
+
+    current_element.getElementsByTagName('img')[0].setAttribute("rotate_step",rotate_step);
+    //$("#" + current_element.id + " img").first().css('transform',"rotate(22.5deg) translate(-10px,57px) ");
+    //current_element.style.transform = "rotate(22.5deg) translate(-10px,57px) ";
+
+  }
+
+
+  // rotate reset
+  function resetRotation(){
+    if (current_element==null){
+          alert("Select an item on the grid first.");
+          return
+        }
+
+    //current_element.getElementsByTagName('img')[0].style.transform = "rotate("+rotate_cw_step+"deg) translate(0px,5px)";
+    current_element.getElementsByTagName('img')[0].style.transform = "rotate(0deg)";
+
+    current_element.getElementsByTagName('img')[0].setAttribute("rotate_step",0);
+    //$("#" + current_element.id + " img").first().css('transform',"rotate(22.5deg) translate(-10px,57px) ");
+    //current_element.style.transform = "rotate(22.5deg) translate(-10px,57px) ";
+
+  }
+
+
+
   function updateDebugDiv(text){
     $("#debug_div").text(text);
   }
@@ -103,9 +146,9 @@
 	var newid=element.id+'_'+ts;
 	
 	// TODO : build objet from document 
-	var rotate_cw_step = element.getAttribute("rotate_cw_step");
+	//var rotate_cw_step = element.getAttribute("rotate_cw_step");
 	
-    var new_item_jq=$('<div class="myItem" onclick="setCurrent(this);" id="'+newid+'"><img style="width:100%" rotate_cw_step="'+rotate_cw_step+'" src="'+element.src+'" /></div>');
+    var new_item_jq=$('<div class="myItem" onclick="setCurrent(this);" id="'+newid+'"><img style="width:100%"  src="'+element.src+'" /></div>');
 	$('#mainContainer').append(new_item_jq);  
 	
 	// get new_item because jquery new_item_jq is not a dom object.
@@ -181,7 +224,7 @@ $(document).ready(function(){
     //alert(catalog[keys[x]].id);
 	
 //	alert('<img rotate_cw_step="' + catalog[keys[x]].rotate_cw_step +'" src="./' + catalog[keys[x]].img +'" id="' + catalog[keys[x]].id +'" onclick="addItemFromCatalog(this);" style=""/>');
-    var new_catalog_item=$('<img rotate_cw_step="' + catalog[keys[x]].rotate_cw_step +'" src="./' + catalog[keys[x]].img +'" id="' + catalog[keys[x]].id +'" onclick="addItemFromCatalog(this);" style=""/>');
+    var new_catalog_item=$('<img  src="./' + catalog[keys[x]].img +'" id="' + catalog[keys[x]].id +'" onclick="addItemFromCatalog(this);" style=""/>');
 	$('#catalog').append(new_catalog_item);  
     
   }
@@ -284,15 +327,38 @@ Select a part
 </div>
 Action
 <div class="transfor_menu">
-  <button id="rotateCW" onclick="rotateCW()">Rotate CW</button>
-  <button id="remove" onclick="remove()">Remove</button>
+	<select type="select" name="rotate" id="rotate">
+	  <option value="22.5">22.5</option>
+	  <option value="45">45</option>
+	  <option value="67.5">67.5</option>
+	  <option value="90">90</option>
+	  <option value="112.5">112,5</option>
+	  <option value="135">135</option>
+	  <option value="157.5">157,5</option>
+	  <option value="180">180</option>
+	  <option value="202.5">202.5</option>
+	  <option value="225">225</option>
+	  <option value="247,5">247,5</option>
+	  <option value="270">270</option>
+	  <option value="292,5">292,5</option>
+	  <option value="315">315</option>
+        </select>
+
+	<button id="rotateCW" onclick="rotateCW()">Rotate CW</button>
+	<button id="rotateCCW" onclick="rotateCCW()">Rotate CCW</button>
+	<button id="resetRotation" onclick="resetRotation()">Reset</button>
+
+	&nbsp;&nbsp;&nbsp;
+        <button id="remove" onclick="remove()">Remove</button>
 </div>
 
 
 
-
+<small>
 Debug:<div id="debug_div"></div>
 <br/>
+</small>
+
 <div id="mainContainer">
   <!-- <div id="myBox"></div>-->
   
