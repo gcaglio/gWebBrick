@@ -30,7 +30,8 @@
   
   
   var current_element=null;
-  
+  var grid_pixel = 40;
+
   // rotate clockwise
   function rotateCW(){
     if (current_element==null){
@@ -266,7 +267,7 @@ function divMove(event) {
 	//alert($("#" + current_element.id).innerHTML);
 	//var current_ = document.getElementById(current_element.id);
 	//alert(current_id.style.top=100;
-	current_element.style.top=Math.round((mouseCoordinate(event, "Y") - 0*canvasOffset.top) / cellSpacing) * cellSpacing + "px";
+	current_element.style.top=Math.round((mouseCoordinate(event, "Y") - canvasOffset.top) / cellSpacing) * cellSpacing + "px";
 	current_element.style.left=Math.round((mouseCoordinate(event, "X") - canvasOffset.left) / cellSpacing) * cellSpacing + "px";
 	//$("#" + current_element.id).css({
     //    top: Math.round((mouseCoordinate(event, "Y") - 0*canvasOffset.top) / cellSpacing) * cellSpacing + "px",
@@ -291,18 +292,23 @@ function mouseCoordinate(event, axis) {
 function createGrid(){
   var counter
   canvasOffset = $("#mainContainer").offset();
-  for(var i=1;i<20;i++){
-    counter = i*40;
+  var num_hline=document.getElementById("mainContainer").offsetHeight/grid_pixel;
+  for(var i=1;i<num_hline;i++){
+    counter = i*grid_pixel;
     $("#mainContainer").prepend("<div class='hline' id='hline"+i+"'></div>");
    
-    $("#hline"+i).css('top', counter + canvasOffset.top );
+    //$("#hline"+i).css('top', counter + canvasOffset.top );
+    $("#hline"+i).css('top', counter  );
   
   }
-  
-  for(var j=1;j<30;j++){
-     counter = j*40;
+ 
+  var num_vline=document.getElementById("mainContainer").offsetWidth/grid_pixel;
+  alert(num_vline);
+  for(var j=1;j<num_vline;j++){
+     counter = j*grid_pixel;
     $("#mainContainer").prepend("<div class='vline' id='vline"+j+"'></div>");
-    $("#vline"+j).css('left',counter+canvasOffset.left);
+    //$("#vline"+j).css('left',counter+canvasOffset.left);
+    $("#vline"+j).css('left',counter);
 
   }
   
@@ -316,15 +322,6 @@ function createGrid(){
 </head>
 <body>
 
-
-<!--
-   <img src="2867.8.gif" onclick="setCurrent(this);" style="border: 1px solid"/>
-   <img id="img2" onclick="setCurrent(this);" src="2867.8.gif" style="display:inline; border: 1px solid green"/>
--->
-Select a part
-<div class="catalog" id="catalog" style="border:0px" >
- 
-</div>
 Action
 <div class="transfor_menu">
 	<select type="select" name="rotate" id="rotate">
@@ -359,10 +356,20 @@ Debug:<div id="debug_div"></div>
 <br/>
 </small>
 
-<div id="mainContainer">
-  <!-- <div id="myBox"></div>-->
-  
-</div>   
+<div id="panel_designer" class="spn_70l">
+  <div id="mainContainer">
+   <!-- <div id="myBox"></div>-->
+  </div> 
+</div>  
+
+
+<div id="panel_catalog" class="spn_30r">
+  <div class="catalog" id="catalog" style="border:0px" >
+
+</div>
+
+
+
 
 </body>
 </html>

@@ -1,9 +1,9 @@
 #mainContainer{
-  
   background-color:#1e1e1e;
   width:1000px;
-  height:800px;
+  height:500px;
   cursor:default;
+  position:relative;
 }
 
 *{
@@ -41,17 +41,43 @@
 
 .hline{
   height:1px;
-  width:1000px;
+  width:100%;
   float:left;
   position:absolute;
-  
+  left:0px; 
   background-color:#0f0;
 }
 
 .vline{
   width:1px;
-  height:800px;
+  height:100%;
   float:left;
   position:absolute;
   background-color:#fff;
+}
+
+
+.spn_30r {
+  width:27%;
+  height:80%;
+  display: inline-block;
+  float:right;
+  vertical-align:top;
+}
+
+.spn_70l {
+  width:70%;
+/*  display: inline-block; */
+  height:80%;
+  float:left;
+  vertical-align:top;
+  overflow:scroll;
+}
+
+
+
+#panel_catalog{
+  border-radius: 10px;
+  background: #73AD21;
+  padding: 10px;
 }
