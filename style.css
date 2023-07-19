@@ -31,8 +31,9 @@
 }
 
 .catalog img {
-	height:50px;
-	padding-right:10px;
+	width:50px;
+	padding-right:5px;
+	padding-bottom:5px;
 }
 
 .myItem img{
@@ -45,7 +46,7 @@
   float:left;
   position:absolute;
   left:0px; 
-  background-color:#0f0;
+  background-color:#eee;
 }
 
 .vline{
@@ -53,20 +54,20 @@
   height:100%;
   float:left;
   position:absolute;
-  background-color:#fff;
+  background-color:#eee;
 }
 
 
-.spn_30r {
-  width:27%;
+.spn_20r {
+  width:17%;
   height:80%;
   display: inline-block;
   float:right;
   vertical-align:top;
 }
 
-.spn_70l {
-  width:70%;
+.spn_80l {
+  width:78%;
 /*  display: inline-block; */
   height:80%;
   float:left;
@@ -80,4 +81,9 @@
   border-radius: 10px;
   background: #73AD21;
   padding: 10px;
+  overflow:hidden;
+}
+
+#panel_designer{
+  padding:10px;
 }

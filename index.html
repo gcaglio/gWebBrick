@@ -30,7 +30,7 @@
   
   
   var current_element=null;
-  var grid_pixel = 40;
+  var grid_pixel = 42;
 
   // rotate clockwise
   function rotateCW(){
@@ -61,7 +61,7 @@
 
 //    var rotate_cw_step = current_element.getElementsByTagName('img')[0].getAttribute("rotate_cw_step");
     var rotate_step = document.getElementById("rotate").value;
-          alert(rotate_step);
+          //alert(rotate_step);
     //current_element.getElementsByTagName('img')[0].style.transform = "rotate("+rotate_cw_step+"deg) translate(0px,5px)";
     current_element.getElementsByTagName('img')[0].style.transform = "rotate(-"+rotate_step+"deg)";
 
@@ -146,10 +146,10 @@
    
 	var newid=element.id+'_'+ts;
 	
-	// TODO : build objet from document 
+	// TODO : build object from document 
 	//var rotate_cw_step = element.getAttribute("rotate_cw_step");
 	
-    var new_item_jq=$('<div class="myItem" onclick="setCurrent(this);" id="'+newid+'"><img style="width:100%"  src="'+element.src+'" /></div>');
+        var new_item_jq=$('<div class="myItem" onclick="setCurrent(this);" id="'+newid+'"><img style="width:100%"  src="'+element.src+'" /></div>');
 	$('#mainContainer').append(new_item_jq);  
 	
 	// get new_item because jquery new_item_jq is not a dom object.
@@ -158,7 +158,7 @@
 	
 	//get original width
 	var naturalwidth = new_item.getElementsByTagName('img')[0].naturalWidth;
-    new_item.getElementsByTagName('img')[0].setAttribute("o_width",naturalwidth);
+        new_item.getElementsByTagName('img')[0].setAttribute("o_width",naturalwidth);
 	
 	//Set width and proportions based on pix_per_stud variable to scale.
 	$(new_item.getElementsByTagName('img')[0]).css('width', naturalwidth/pix_per_stud );
@@ -250,29 +250,18 @@ function mouseDown(e){
   window.addEventListener('mousemove', divMove, true);
 }
 
-var cellSpacing = 1;
+//var cellSpacing = 1;
 
 function divMove(event) {
     event = event || window.event;
     canvasOffset = $("#mainContainer").offset();
-	
-	updateDebugDiv("DIV ID="+ current_element.id+" OFFSET LEFT=" + canvasOffset.left + "   TOP=" + canvasOffset.top + "<br>" + "MOUSE Y=" + mouseCoordinate(event, "Y") + " X=" +mouseCoordinate(event, "X") );
-    
-	// NOTE GC : added 0* because if we have dom elements BEFORE the grid, removing the offset.top will misplace the
-	// TOP coord of the selected box because it will start from the beginning of the page, do not count the item before the grid
-	//$("#myBox").css({
-    //    top: Math.round((mouseCoordinate(event, "Y") - 0*canvasOffset.top) / cellSpacing) * cellSpacing + "px",
-    //    left: Math.round((mouseCoordinate(event, "X") - canvasOffset.left) / cellSpacing) * cellSpacing + "px"
-    //});
-	//alert($("#" + current_element.id).innerHTML);
-	//var current_ = document.getElementById(current_element.id);
-	//alert(current_id.style.top=100;
-	current_element.style.top=Math.round((mouseCoordinate(event, "Y") - canvasOffset.top) / cellSpacing) * cellSpacing + "px";
-	current_element.style.left=Math.round((mouseCoordinate(event, "X") - canvasOffset.left) / cellSpacing) * cellSpacing + "px";
-	//$("#" + current_element.id).css({
-    //    top: Math.round((mouseCoordinate(event, "Y") - 0*canvasOffset.top) / cellSpacing) * cellSpacing + "px",
-    //    left: Math.round((mouseCoordinate(event, "X") - canvasOffset.left) / cellSpacing) * cellSpacing + "px"
-    //});
+    updateDebugDiv("DIV ID="+ current_element.id+" OFFSET LEFT=" + canvasOffset.left + "   TOP=" + canvasOffset.top + "<br>" + "MOUSE Y=" + mouseCoordinate(event, "Y") + " X=" +mouseCoordinate(event, "X") );
+ 
+
+    var cellSpacing=document.getElementById("snapto").value; //PX
+    cellSpacing = (grid_pixel*cellSpacing)/32;
+    current_element.style.top=Math.round((mouseCoordinate(event, "Y") - canvasOffset.top) / cellSpacing) * cellSpacing + "px";
+    current_element.style.left=Math.round((mouseCoordinate(event, "X") - canvasOffset.left) / cellSpacing) * cellSpacing + "px";
 	
 	
 }
@@ -303,7 +292,7 @@ function createGrid(){
   }
  
   var num_vline=document.getElementById("mainContainer").offsetWidth/grid_pixel;
-  alert(num_vline);
+  //alert(num_vline);
   for(var j=1;j<num_vline;j++){
      counter = j*grid_pixel;
     $("#mainContainer").prepend("<div class='vline' id='vline"+j+"'></div>");
@@ -343,10 +332,20 @@ Action
 
 	<button id="rotateCW" onclick="rotateCW()">Rotate CW</button>
 	<button id="rotateCCW" onclick="rotateCCW()">Rotate CCW</button>
-	<button id="resetRotation" onclick="resetRotation()">Reset</button>
+	<button id="resetRotation" onclick="resetRotation()">Reset Rotation</button>
 
 	&nbsp;&nbsp;&nbsp;
         <button id="remove" onclick="remove()">Remove</button>
+
+	&nbsp;&nbsp;&nbsp;
+	Snap to grid:
+        <select type="select" name="snapto" id="snapto">
+          <option value="1">1 stud</option>
+          <option value="4">4 stud</option>
+          <option value="8">8 stud</option>
+          <option value="16">16 stud</option>
+          <option value="32">32 stud</option>
+        </select>	
 </div>
 
 
@@ -356,14 +355,14 @@ Debug:<div id="debug_div"></div>
 <br/>
 </small>
 
-<div id="panel_designer" class="spn_70l">
+<div id="panel_designer" class="spn_80l">
   <div id="mainContainer">
    <!-- <div id="myBox"></div>-->
   </div> 
 </div>  
 
 
-<div id="panel_catalog" class="spn_30r">
+<div id="panel_catalog" class="spn_20r">
   <div class="catalog" id="catalog" style="border:0px" >
 
 </div>
