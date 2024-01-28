@@ -351,6 +351,60 @@ function createGrid(){
 /* fine codepen */
 
 
+/* load project */
+//var loaded_json='{  "elements" :[   {   "id" : "2861.8_1706484036.312",   "top" : "170.625px",   "left" : "301.875px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2861.8.gif",    "orig_width" : "279",    "width" : "139.5px"  } ]}';
+//var loaded_json='{ "elements" :[ { "id" : "2861.8_1706484494.469",   "top" : "168px",   "left" : "238.875px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2861.8.gif",    "orig_width" : "279",    "width" : "139.5px" ,   "rotate_step" : "90", "rotate_dir" : "CCW"   } ] }';
+//var loaded_json='{  "elements" :[   {   "id" : "2861.8_1706484494.469",   "top" : "168px",   "left" : "238.875px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2861.8.gif",    "orig_width" : "279",    "rotate_step" : "67.5",    "rotate_dir" : "CW",    "width" : "139.5px"   }]}';
+var loaded_json='{  "elements" :[   {   "id" : "2865.8_1706484840.211",   "top" : "97.125px",   "left" : "254.625px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2865.8.gif",    "orig_width" : "136",    "width" : "68px"   },  {   "id" : "2865.8_1706484842.711",   "top" : "97.125px",   "left" : "321.562px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2865.8.gif",    "orig_width" : "136",    "width" : "68px"   },  {   "id" : "2865.8_1706484853.129",   "top" : "97.125px",   "left" : "389.812px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2865.8.gif",    "orig_width" : "136",    "width" : "68px"   },  {   "id" : "2867.8_1706484856.777",   "top" : "97.125px",   "left" : "456.75px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2867.8.gif",    "orig_width" : "139",    "width" : "69.5px"   },  {   "id" : "2867.8_1706484861.416",   "top" : "123.375px",   "left" : "518.438px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2867.8.gif",    "orig_width" : "139",    "rotate_step" : "22.5",    "rotate_dir" : "CW",    "width" : "69.5px"   },  {   "id" : "2867.8_1706484877.423",   "top" : "169.312px",   "left" : "565.688px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2867.8.gif",    "orig_width" : "139",    "rotate_step" : "45",    "rotate_dir" : "CW",    "width" : "69.5px"   },  {   "id" : "2867.8_1706484886.269",   "top" : "291.375px",   "left" : "589.312px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2867.8.gif",    "orig_width" : "139",    "rotate_step" : "90",    "rotate_dir" : "CW",    "width" : "69.5px"   },  {   "id" : "2867.8_1706484896.688",   "top" : "228.375px",   "left" : "589.312px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2867.8.gif",    "orig_width" : "139",    "rotate_step" : "67.5",    "rotate_dir" : "CW",    "width" : "69.5px"   },  {   "id" : "2867.8_1706484910.609",   "top" : "349.125px",   "left" : "564.375px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2867.8.gif",    "orig_width" : "139",    "rotate_step" : "112.5",    "rotate_dir" : "CW",    "width" : "69.5px"   },  {   "id" : "2861halfcurve.8_1706484954.578",   "top" : "405.562px",   "left" : "333.375px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2861halfcurve.8.gif",    "orig_width" : "264",    "width" : "132px"   },  {   "id" : "2867.8_1706484963.04",   "top" : "393.75px",   "left" : "518.438px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2867.8.gif",    "orig_width" : "139",    "rotate_step" : "135",    "rotate_dir" : "CW",    "width" : "69.5px"   },  {   "id" : "2867.8_1706484990.547",   "top" : "418.688px",   "left" : "458.062px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2867.8.gif",    "orig_width" : "139",    "rotate_step" : "157.5",    "rotate_dir" : "CW",    "width" : "69.5px"   },  {   "id" : "2867.8_1706485015.235",   "top" : "370.125px",   "left" : "409.5px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2867.8.gif",    "orig_width" : "139",    "rotate_step" : "112.5",    "rotate_dir" : "CW",    "width" : "69.5px"   }]}';
+function loadProject(){
+
+    var json = JSON.parse(loaded_json);
+
+
+    j_elements=json["elements"];
+    for (var i = 0; i < j_elements.length; i++){
+      var obj = j_elements[i];
+      my_id=obj.id;
+      my_top=obj.top;
+      my_left=obj.left;
+      my_src=obj.img_src;
+      my_rotate_dir=obj.rotate_dir;
+      my_rotate_step=obj.rotate_step;
+
+      var new_item_jq=$('<div class="myItem" onclick="setCurrent(this);" id="'+my_id+'" ><img style="width:100%" src="'+my_src+'" /></div>');
+      $('#mainContainer').append(new_item_jq);
+
+      // get new_item because jquery new_item_jq is not a dom object.
+      new_item = document.getElementById(my_id);
+      new_item.addEventListener('mousedown', mouseDown, false);
+      new_item.addEventListener('touchstart', mouseDown, false); 
+      new_item.style.top=my_top;
+      new_item.style.left=my_left;
+
+      //get original width
+      var naturalwidth = new_item.getElementsByTagName('img')[0].naturalWidth;
+      new_item.getElementsByTagName('img')[0].setAttribute("o_width",naturalwidth);
+
+      //Set width and proportions based on pix_per_stud variable to scale.
+      $(new_item.getElementsByTagName('img')[0]).css('width', naturalwidth/pix_per_stud );
+      setCurrent(new_item);
+
+      //apply rotation
+      if (my_rotate_dir=="CCW") { 
+        new_item.getElementsByTagName('img')[0].style.transform = "rotate(-"+my_rotate_step+"deg)";
+      }else{
+        new_item.getElementsByTagName('img')[0].style.transform = "rotate("+my_rotate_step+"deg)";
+      }
+
+      new_item.getElementsByTagName('img')[0].setAttribute("rotate_step",my_rotate_step);
+      new_item.getElementsByTagName('img')[0].setAttribute("rotate_dir",my_rotate_dir);
+
+
+      
+    }
+}
+
+/* end load project */
 
 
 
@@ -358,27 +412,29 @@ function createGrid(){
 function generateAndDownload(filename) {
   var element = document.createElement('a');
 
-  text="{ \n elements :[ \n";
+  text="{ \n \"elements\" :[ \n";
   var container_children = $("#mainContainer").children(".myItem");
 
   for (var i = 0; i < container_children.length; i++) {
-    alert(container_children[i].style.top);
+//    alert(container_children[i].style.top);
     text_el="  {\n";
     //div
-    text_el = text_el + "   \"top\" : " + container_children[i].style.top + ",\n";
-    text_el = text_el + "   \"left\" : " + container_children[i].style.left + ",\n";
+    text_el = text_el + "   \"id\" : \"" + container_children[i].id + "\",\n";
+    text_el = text_el + "   \"top\" : \"" + container_children[i].style.top + "\",\n";
+    text_el = text_el + "   \"left\" : \"" + container_children[i].style.left + "\",\n";
 
     //part_image
     img_el = container_children[i].getElementsByTagName('img')[0];
     text_el = text_el + "   \"img_src\" : \""+img_el.src+"\", \n";
     text_el = text_el + "   \"orig_width\" : \""+img_el.getAttribute("o_width")+"\", \n";
-    text_el = text_el + "   \"width\" : \""+img_el.style.width+"\" \n";
 
     if (img_el.hasAttribute("rotate_step")){
-      text_el = text_el + "   \"rotate_step\" : \""+img_el.getAttribute("rotate_step")+"\" \n";
-      text_el = text_el + "   \"rotate_dir\" : \""+img_el.getAttribute("rotate_dir")+"\" \n";
+      text_el = text_el + "   \"rotate_step\" : \""+img_el.getAttribute("rotate_step")+"\", \n";
+      text_el = text_el + "   \"rotate_dir\" : \""+img_el.getAttribute("rotate_dir")+"\", \n";
     }
 
+
+    text_el = text_el + "   \"width\" : \""+img_el.style.width+"\" \n";
     text_el= text_el + "  }\n";
     text=text+text_el + ",";
   } 
@@ -396,6 +452,8 @@ function generateAndDownload(filename) {
   element.click();
 
   document.body.removeChild(element);
+   
+  alert("Project is ready to be downloaded.");
 }
 
 // Start file download.
@@ -445,6 +503,7 @@ Action
           <option value="32">32 stud</option>
         </select>	
 	<button id="save" onclick="download()">Save</button>
+	<!--	<button id="save" onclick="loadProject()">Load</button> -->
 </div>
 
 
