@@ -14,4 +14,4 @@ You could see and use it directly on : http://gwebbrick.cantylab.net
 
 ## Features
 2023-08-28 : added touch screen support for drag and drop
-
+2024-01-29 : added SAVE button that export the project in JSON format
