@@ -58,6 +58,7 @@
     current_element.getElementsByTagName('img')[0].style.transform = "rotate("+rotate_step+"deg)";
 
     current_element.getElementsByTagName('img')[0].setAttribute("rotate_step",rotate_step);
+    current_element.getElementsByTagName('img')[0].setAttribute("rotate_dir","CW");
     //$("#" + current_element.id + " img").first().css('transform',"rotate(22.5deg) translate(-10px,57px) ");
     //current_element.style.transform = "rotate(22.5deg) translate(-10px,57px) ";
   
@@ -78,6 +79,8 @@
     current_element.getElementsByTagName('img')[0].style.transform = "rotate(-"+rotate_step+"deg)";
 
     current_element.getElementsByTagName('img')[0].setAttribute("rotate_step",rotate_step);
+    current_element.getElementsByTagName('img')[0].setAttribute("rotate_dir","CCW");
+
     //$("#" + current_element.id + " img").first().css('transform',"rotate(22.5deg) translate(-10px,57px) ");
     //current_element.style.transform = "rotate(22.5deg) translate(-10px,57px) ";
 
@@ -161,7 +164,7 @@
 	// TODO : build object from document 
 	//var rotate_cw_step = element.getAttribute("rotate_cw_step");
 	
-        var new_item_jq=$('<div class="myItem" onclick="setCurrent(this);" id="'+newid+'"><img style="width:100%"  src="'+element.src+'" /></div>');
+        var new_item_jq=$('<div class="myItem" onclick="setCurrent(this);" id="'+newid+'" ><img style="width:100%" src="'+element.src+'" /></div>');
 	$('#mainContainer').append(new_item_jq);  
 	
 	// get new_item because jquery new_item_jq is not a dom object.
@@ -347,7 +350,60 @@ function createGrid(){
 
 /* fine codepen */
 
-  
+
+
+
+
+/* generate DOWNLOAD content */
+function generateAndDownload(filename) {
+  var element = document.createElement('a');
+
+  text="{ \n elements :[ \n";
+  var container_children = $("#mainContainer").children(".myItem");
+
+  for (var i = 0; i < container_children.length; i++) {
+    alert(container_children[i].style.top);
+    text_el="  {\n";
+    //div
+    text_el = text_el + "   \"top\" : " + container_children[i].style.top + ",\n";
+    text_el = text_el + "   \"left\" : " + container_children[i].style.left + ",\n";
+
+    //part_image
+    img_el = container_children[i].getElementsByTagName('img')[0];
+    text_el = text_el + "   \"img_src\" : \""+img_el.src+"\", \n";
+    text_el = text_el + "   \"orig_width\" : \""+img_el.getAttribute("o_width")+"\", \n";
+    text_el = text_el + "   \"width\" : \""+img_el.style.width+"\" \n";
+
+    if (img_el.hasAttribute("rotate_step")){
+      text_el = text_el + "   \"rotate_step\" : \""+img_el.getAttribute("rotate_step")+"\" \n";
+      text_el = text_el + "   \"rotate_dir\" : \""+img_el.getAttribute("rotate_dir")+"\" \n";
+    }
+
+    text_el= text_el + "  }\n";
+    text=text+text_el + ",";
+  } 
+  text = text.slice(0, -1); 
+  text= text + "\n]";
+  text= text + "\n}";
+
+
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+
+// Start file download.
+function download(){
+  generateAndDownload("gwebbrick.json");
+}
+/* end generating download content*/
+
   
 </script>
 </head>
@@ -388,6 +444,7 @@ Action
           <option value="16">16 stud</option>
           <option value="32">32 stud</option>
         </select>	
+	<button id="save" onclick="download()">Save</button>
 </div>
 
 
