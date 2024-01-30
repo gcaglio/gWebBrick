@@ -20,6 +20,7 @@ Follow instructions in the Parts folder (https://github.com/gcaglio/gWebBrick/tr
 ![gWebBrick home page](https://github.com/gcaglio/gWebBrick/blob/main/Docs/images/gwebbrick_1.PNG?raw=true)
 
 ## Features
+2024-01-31 : double click on part rotate Clockwise 22.5 degrees.
 2024-01-30 : completed LOAD function, added change background feature, added automatic part catalog loading<br>
 2024-01-29 : added LOAD project prototype function<br>
 2024-01-29 : added SAVE button that export the project in JSON format<br>

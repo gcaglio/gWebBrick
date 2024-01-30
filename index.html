@@ -15,25 +15,6 @@
 
   const pix_per_stud = 2;
   var catalog = "";
-/*  const catalog = [ 
-  
-     { "id" : "2867.8", "img" : "Parts/Track/2867.8.gif"  },   
-     { "id" : "2865.8", "img" : "Parts/Track/2865.8.gif" },
-     { "id" : "2859.8", "img" : "Parts/Track/2859.8.gif"   },
-     { "id" : "2859halfcurve.8", "img" : "Parts/Track/2859halfcurve.8.gif"  },
-     { "id" : "2861.8", "img" : "Parts/Track/2861.8.gif"  },
-	 { "id" : "2861halfcurve.8", "img" : "Parts/Track/2861halfcurve.8.gif" },
-	 { "id" : "607p01.7", "img" : "Parts/Road/607p01.7.gif" },
-	 { "id" : "608p01.7", "img" : "Parts/Road/608p01.7.gif"  },
-	 { "id" : "606p02.7", "img" : "Parts/Road/606p02.7.gif"  },
-	 { "id" : "609p01.7", "img" : "Parts/Road/609p01.7.gif"  }
-	 
-	 
-  ];
-  */
-
-
-  
   var current_element=null;
   var grid_pixel = 42;
 
@@ -68,7 +49,7 @@
       for (var i = 0; i < jsonResponse.length; i++) {
         var item = jsonResponse[i];
         if (!item.img.toLowerCase().endsWith(".xml") && !item.img.toLowerCase().endsWith(".txt") && !item.img.toLowerCase().endsWith(".md")){ 
-          var new_catalog_item=$('<img  src="./' + item.img +'" id="' + item.id + '" onclick="addItemFromCatalog(this);" style=""/>');
+          var new_catalog_item=$('<img  src="./' + item.img +'" title="'+item.id+'" id="' + item.id + '" onclick="addItemFromCatalog(this);" style=""/>');
           $('#catalog').append(new_catalog_item);
 	}
       }
@@ -96,6 +77,20 @@
     //$("#" + current_element.id + " img").first().css('transform',"rotate(22.5deg) translate(-10px,57px) ");
     //current_element.style.transform = "rotate(22.5deg) translate(-10px,57px) ";
   
+  }
+
+  function doubleClickRotate(element){
+    if (element.hasAttribute("rotate_step")){
+      var current_step=element.getAttribute("rotate_step");
+      current_step = parseFloat(current_step) + 22.5;
+      element.style.transform = "rotate(+"+current_step+"deg)";
+      element.setAttribute("rotate_step",current_step);
+      element.setAttribute("rotate_dir","CW");
+    }else{
+      element.style.transform = "rotate(+22.5deg)";
+      element.setAttribute("rotate_step","22.5");
+      element.setAttribute("rotate_dir","CW");    
+    }
   }
 
 
@@ -198,7 +193,7 @@
 	// TODO : build object from document 
 	//var rotate_cw_step = element.getAttribute("rotate_cw_step");
 	
-        var new_item_jq=$('<div class="myItem" onclick="setCurrent(this);" id="'+newid+'" ><img title="'+element.id+'" style="width:100%" src="'+element.src+'" /></div>');
+        var new_item_jq=$('<div class="myItem" onclick="setCurrent(this);" id="'+newid+'" ><img ondblclick="doubleClickRotate(this)" title="'+element.id+'" style="width:100%" src="'+element.src+'" /></div>');
 	$('#mainContainer').append(new_item_jq);  
 	
 	// get new_item because jquery new_item_jq is not a dom object.
