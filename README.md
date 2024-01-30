@@ -13,7 +13,7 @@ PHP7
 ## Parts/Catalog
 gWebBrick is inspired and compatible with BlueBrick Parts.<br>
 gWebBrick does not come with any Part in the Catalog.<br>
-You need to download the Parts from  https://bluebrick.lswproject.com/
+You need to download the Parts from  https://bluebrick.lswproject.com/ : follow instructions in the Parts folder (https://github.com/gcaglio/gWebBrick/tree/main/Parts/README.md)
 
 ## Images
 ![gWebBrick home page](https://github.com/gcaglio/gWebBrick/blob/main/Docs/images/gwebbrick_1.PNG?raw=true)
