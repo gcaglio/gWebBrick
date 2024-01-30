@@ -24,7 +24,8 @@
 <script>
 
   const pix_per_stud = 2;
-  const catalog = [ 
+  var catalog = "";
+/*  const catalog = [ 
   
      { "id" : "2867.8", "img" : "Parts/Track/2867.8.gif"  },   
      { "id" : "2865.8", "img" : "Parts/Track/2865.8.gif" },
@@ -39,10 +40,53 @@
 	 
 	 
   ];
-  
+  */
+
+
   
   var current_element=null;
   var grid_pixel = 42;
+
+
+
+
+  function getParts(callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'getParts.php', true);
+    xhr.setRequestHeader('Content-type', 'application/json');
+    
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            var jsonResponse = JSON.parse(xhr.responseText);
+            callback(null, jsonResponse);
+        } else {
+            callback("Error during loading parts: " + xhr.status);
+        }
+    };
+
+    xhr.onerror = function() {
+        callback("Unable to load parts - network error.");
+    };
+
+    xhr.send();
+  }
+
+
+  function getPartsCallback(message,jsonResponse){
+    if (message==null) { 
+      catalog=jsonResponse;
+      for (var i = 0; i < jsonResponse.length; i++) {
+        var item = jsonResponse[i];
+        if (!item.img.toLowerCase().endsWith(".xml")){ 
+          var new_catalog_item=$('<img  src="./' + item.img +'" id="' + item.id + '" onclick="addItemFromCatalog(this);" style=""/>');
+          $('#catalog').append(new_catalog_item);
+	}
+      }
+    }else{
+      alert(message);
+    }
+  }
+  
 
   // rotate clockwise
   function rotateCW(){
@@ -53,7 +97,7 @@
   
 //    var rotate_cw_step = current_element.getElementsByTagName('img')[0].getAttribute("rotate_cw_step");
     var rotate_step = document.getElementById("rotate").value;
-	  alert(rotate_step);
+//	  alert(rotate_step);
     //current_element.getElementsByTagName('img')[0].style.transform = "rotate("+rotate_cw_step+"deg) translate(0px,5px)";
     current_element.getElementsByTagName('img')[0].style.transform = "rotate("+rotate_step+"deg)";
 
@@ -92,7 +136,7 @@
     if (current_element==null){
           alert("Select an item on the grid first.");
           return
-        }
+    }
 
     //current_element.getElementsByTagName('img')[0].style.transform = "rotate("+rotate_cw_step+"deg) translate(0px,5px)";
     current_element.getElementsByTagName('img')[0].style.transform = "rotate(0deg)";
@@ -164,7 +208,7 @@
 	// TODO : build object from document 
 	//var rotate_cw_step = element.getAttribute("rotate_cw_step");
 	
-        var new_item_jq=$('<div class="myItem" onclick="setCurrent(this);" id="'+newid+'" ><img style="width:100%" src="'+element.src+'" /></div>');
+        var new_item_jq=$('<div class="myItem" onclick="setCurrent(this);" id="'+newid+'" ><img title="'+element.id+'" style="width:100%" src="'+element.src+'" /></div>');
 	$('#mainContainer').append(new_item_jq);  
 	
 	// get new_item because jquery new_item_jq is not a dom object.
@@ -234,25 +278,9 @@
   
 /* codepen.io/netgfx/pen/DEKXBV */
 $(document).ready(function(){
-  
- 
-  
   addListeners();
-  
-  
-  var keys = Object.keys(catalog);
-  for(let x = 0; x < keys.length; x++){
-    //alert(catalog[keys[x]].id);
-	
-//	alert('<img rotate_cw_step="' + catalog[keys[x]].rotate_cw_step +'" src="./' + catalog[keys[x]].img +'" id="' + catalog[keys[x]].id +'" onclick="addItemFromCatalog(this);" style=""/>');
-    var new_catalog_item=$('<img  src="./' + catalog[keys[x]].img +'" id="' + catalog[keys[x]].id +'" onclick="addItemFromCatalog(this);" style=""/>');
-	$('#catalog').append(new_catalog_item);  
-    
-  }
-  
+  getParts(getPartsCallback);
   createGrid();
-  
-  
 });
 
 
@@ -322,6 +350,9 @@ function mouseCoordinate(event, axis) {
     }
 };
 
+function clearGrid(){
+  document.getElementById("mainContainer").innerHTML='';
+}
 
 function createGrid(){
   var counter
@@ -352,13 +383,9 @@ function createGrid(){
 
 
 /* load project */
-//var loaded_json='{  "elements" :[   {   "id" : "2861.8_1706484036.312",   "top" : "170.625px",   "left" : "301.875px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2861.8.gif",    "orig_width" : "279",    "width" : "139.5px"  } ]}';
-//var loaded_json='{ "elements" :[ { "id" : "2861.8_1706484494.469",   "top" : "168px",   "left" : "238.875px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2861.8.gif",    "orig_width" : "279",    "width" : "139.5px" ,   "rotate_step" : "90", "rotate_dir" : "CCW"   } ] }';
-//var loaded_json='{  "elements" :[   {   "id" : "2861.8_1706484494.469",   "top" : "168px",   "left" : "238.875px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2861.8.gif",    "orig_width" : "279",    "rotate_step" : "67.5",    "rotate_dir" : "CW",    "width" : "139.5px"   }]}';
-var loaded_json='{  "elements" :[   {   "id" : "2865.8_1706484840.211",   "top" : "97.125px",   "left" : "254.625px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2865.8.gif",    "orig_width" : "136",    "width" : "68px"   },  {   "id" : "2865.8_1706484842.711",   "top" : "97.125px",   "left" : "321.562px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2865.8.gif",    "orig_width" : "136",    "width" : "68px"   },  {   "id" : "2865.8_1706484853.129",   "top" : "97.125px",   "left" : "389.812px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2865.8.gif",    "orig_width" : "136",    "width" : "68px"   },  {   "id" : "2867.8_1706484856.777",   "top" : "97.125px",   "left" : "456.75px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2867.8.gif",    "orig_width" : "139",    "width" : "69.5px"   },  {   "id" : "2867.8_1706484861.416",   "top" : "123.375px",   "left" : "518.438px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2867.8.gif",    "orig_width" : "139",    "rotate_step" : "22.5",    "rotate_dir" : "CW",    "width" : "69.5px"   },  {   "id" : "2867.8_1706484877.423",   "top" : "169.312px",   "left" : "565.688px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2867.8.gif",    "orig_width" : "139",    "rotate_step" : "45",    "rotate_dir" : "CW",    "width" : "69.5px"   },  {   "id" : "2867.8_1706484886.269",   "top" : "291.375px",   "left" : "589.312px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2867.8.gif",    "orig_width" : "139",    "rotate_step" : "90",    "rotate_dir" : "CW",    "width" : "69.5px"   },  {   "id" : "2867.8_1706484896.688",   "top" : "228.375px",   "left" : "589.312px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2867.8.gif",    "orig_width" : "139",    "rotate_step" : "67.5",    "rotate_dir" : "CW",    "width" : "69.5px"   },  {   "id" : "2867.8_1706484910.609",   "top" : "349.125px",   "left" : "564.375px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2867.8.gif",    "orig_width" : "139",    "rotate_step" : "112.5",    "rotate_dir" : "CW",    "width" : "69.5px"   },  {   "id" : "2861halfcurve.8_1706484954.578",   "top" : "405.562px",   "left" : "333.375px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2861halfcurve.8.gif",    "orig_width" : "264",    "width" : "132px"   },  {   "id" : "2867.8_1706484963.04",   "top" : "393.75px",   "left" : "518.438px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2867.8.gif",    "orig_width" : "139",    "rotate_step" : "135",    "rotate_dir" : "CW",    "width" : "69.5px"   },  {   "id" : "2867.8_1706484990.547",   "top" : "418.688px",   "left" : "458.062px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2867.8.gif",    "orig_width" : "139",    "rotate_step" : "157.5",    "rotate_dir" : "CW",    "width" : "69.5px"   },  {   "id" : "2867.8_1706485015.235",   "top" : "370.125px",   "left" : "409.5px",   "img_src" : "http://gwebbrick.cantynet.local/Parts/Track/2867.8.gif",    "orig_width" : "139",    "rotate_step" : "112.5",    "rotate_dir" : "CW",    "width" : "69.5px"   }]}';
-function loadProject(){
+function loadProject(content){
 
-    var json = JSON.parse(loaded_json);
+    var json = JSON.parse(content);
 
 
     j_elements=json["elements"];
@@ -456,19 +483,66 @@ function generateAndDownload(filename) {
   alert("Project is ready to be downloaded.");
 }
 
-// Start file download.
-function download(){
-  generateAndDownload("gwebbrick.json");
-}
+  // Start file download.
+  function download(){
+    generateAndDownload("gwebbrick.json");
+  }
 /* end generating download content*/
 
-  
+
+/* Modal load file*/
+  // Funzione per mostrare il modale
+  function mostraModale() {
+      document.getElementById('modalCaricamento').style.display = 'block';
+
+      document.getElementById('fileInput').addEventListener('change', function(event) {
+        var file = event.target.files[0]; // Ottiene il primo file selezionato
+        var reader = new FileReader(); // Crea un oggetto FileReader
+
+        // Definisce l'evento onload del reader
+        reader.onload = function() {
+            var fileContent = reader.result; // Ottiene il contenuto del file
+	    clearGrid();
+	    createGrid();
+            loadProject(fileContent);
+	    chiudiModale();
+          };
+ 
+          // Legge il contenuto del file come testo
+          reader.readAsText(file);
+        });
+  }
+
+  // Funzione per chiudere il modale
+  function chiudiModale() {
+      document.getElementById('modalCaricamento').style.display = 'none';
+  }
+
+/* end modal load file */
+
+/* change background color */
+        function changeBackgroundColor() {
+            // Ottiene il valore selezionato dalla select
+            var selectedColor = document.getElementById('bg_color').value;
+            
+            // Modifica il colore di sfondo del div
+            document.getElementById('mainContainer').style.backgroundColor = selectedColor;
+        }
+/* end change background color*/
 </script>
 </head>
 <body>
 
 Action
 <div class="transfor_menu">
+
+        <select type="select" name="bg_color" id="bg_color" onchange="changeBackgroundColor()">
+          <option value="#1e1e1e">dark grey (DEFAULT)</option>
+          <option value="#7a7a7a">grey</option>
+          <option value="#188c0b">dark green</option>
+          <option value="#ffffff">white</option>
+        </select>
+
 	<select type="select" name="rotate" id="rotate">
 	  <option value="22.5">22.5</option>
 	  <option value="45">45</option>
@@ -504,6 +578,8 @@ Action
         </select>	
 	<button id="save" onclick="download()">Save</button>
 	<!--	<button id="save" onclick="loadProject()">Load</button> -->
+
+	<button onclick="mostraModale()">Load</button>
 </div>
 
 
@@ -525,7 +601,15 @@ Debug:<div id="debug_div"></div>
 
 </div>
 
-
+<!-- Il modale -->
+<div id="modalCaricamento" class="modal">
+    <div class="modal-content">
+        <h2>Load file</h2>
+        <input type="file" id="fileInput">
+        <br><br>
+        <button onclick="chiudiModale()">Chiudi</button>
+    </div>
+</div>
 
 
 </body>
