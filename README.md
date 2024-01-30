@@ -16,7 +16,7 @@ gWebBrick does not come with any Part in the Catalog.<br>
 You need to download the Parts from  https://bluebrick.lswproject.com/
 
 ## Images
-![gWebBrick home page]([http://url/to/img.png](https://github.com/gcaglio/gWebBrick/blob/main/Docs/images/gwebbrick_1.PNG?raw=true))
+![gWebBrick home page](https://github.com/gcaglio/gWebBrick/blob/main/Docs/images/gwebbrick_1.PNG?raw=true)
 
 ## Features
 2024-01-30 : completed LOAD function, added change background feature, added automatic part catalog loading<br>
