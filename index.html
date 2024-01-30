@@ -77,7 +77,7 @@
       catalog=jsonResponse;
       for (var i = 0; i < jsonResponse.length; i++) {
         var item = jsonResponse[i];
-        if (!item.img.toLowerCase().endsWith(".xml")){ 
+        if (!item.img.toLowerCase().endsWith(".xml") && !item.img.toLowerCase().endsWith(".txt")){ 
           var new_catalog_item=$('<img  src="./' + item.img +'" id="' + item.id + '" onclick="addItemFromCatalog(this);" style=""/>');
           $('#catalog').append(new_catalog_item);
 	}
